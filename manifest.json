@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Leetcode Buddy",
+  "version": "1.0.2",
+  "description": "An AI mentor to assist solving Leetcode problems",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "identity",
+    "identity.email",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://leetcode.com/*"
+  ],
+  "action": {
+    "default_popup": "index.html"
+  }
+}

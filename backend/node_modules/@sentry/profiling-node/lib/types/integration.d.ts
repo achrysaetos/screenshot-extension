@@ -1,0 +1,75 @@
+import type { NodeClient } from '@sentry/node';
+import type { Integration } from '@sentry/types';
+declare class ContinuousProfiler {
+    private _profilerId;
+    private _client;
+    private _chunkData;
+    /**
+     * Called when the profiler is attached to the client (continuous mode is enabled). If of the profiler
+     * methods called before the profiler is initialized will result in a noop action with debug logs.
+     * @param client
+     */
+    initialize(client: NodeClient): void;
+    /**
+     * Recursively schedules chunk profiling to start and stop at a set interval.
+     * Once the user calls stop(), the current chunk will be stopped and flushed to Sentry and no new chunks will
+     * will be started. To restart continuous mode after calling stop(), the user must call start() again.
+     * @returns void
+     */
+    start(): void;
+    /**
+     * Stops the current chunk and flushes the profile to Sentry.
+     * @returns void
+     */
+    stop(): void;
+    /**
+     * Flushes the profile chunk to Sentry.
+     * @param chunk
+     */
+    private _flush;
+    /**
+     * Stops the profile and clears chunk instrumentation from global scope
+     * @returns void
+     */
+    private _stopChunkProfiling;
+    /**
+     * Starts the profiler and registers the flush timer for a given chunk.
+     * @param chunk
+     */
+    private _startChunkProfiling;
+    /**
+     * Attaches profiling information to spans that were started
+     * during a profiling session.
+     */
+    private _setupSpanChunkInstrumentation;
+    /**
+     * Clear profiling information from global context when a profile is not running.
+     */
+    private _teardownSpanChunkInstrumentation;
+    /**
+     * Initializes new profile chunk metadata
+     */
+    private _initializeChunk;
+    /**
+     * Assigns thread_id and thread name context to a profiled event.
+     */
+    private _assignThreadIdContext;
+    /**
+     * Resets the current chunk state.
+     */
+    private _reset;
+}
+export interface ProfilingIntegration extends Integration {
+    _profiler: ContinuousProfiler;
+}
+/** Exported only for tests. */
+export declare const _nodeProfilingIntegration: () => ProfilingIntegration;
+/**
+ * We need this integration in order to send data to Sentry. We hook into the event processor
+ * and inspect each event to see if it is a transaction event and if that transaction event
+ * contains a profile on it's metadata. If that is the case, we create a profiling event envelope
+ * and delete the profile from the transaction metadata.
+ */
+export declare const nodeProfilingIntegration: () => Integration;
+export {};
+//# sourceMappingURL=integration.d.ts.map
