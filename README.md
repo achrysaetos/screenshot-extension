@@ -1,19 +1,9 @@
 # LC Chrome Extension
 
+Add your extension to chrome at chrome://extensions/, load unpacked, and select the dist folder.
+
 - `npm run dev` at the root to start the frontend.
-- `npm run dev` in backend/ to start the server.
+- `npm run dev` in backend/ to start the server (currently optional).
+- `npm run build` at the root to build the extension every time you make a change.
 
-Add your extension to chrome at chrome://extensions/
-
-made from https://github.com/crxjs/chrome-extension-tools
-
----
-
-TODO:
-
-- parse leetcode hints
-- stripe
-- chatting
-- prettier CSS, floating always on top
-- fix scrolling window to get full inner text bug
-- parse test cases and run results
+Made from https://github.com/crxjs/chrome-extension-tools
